@@ -652,8 +652,10 @@ void DwarfMemberFunctionIdTypeInfo::DumpTypeInfo(MCObjectStreamer *Streamer, Use
     EmitInfoOffset(Streamer, ArgTypeInfo, 4);
   }
 
-  // Ternimate DIE
-  Streamer->emitIntValue(0, 1);
+  // Terminate DIE (skip for SubprogramStaticNoChildrenSpec which has no children)
+  if (!IsStatic || HasParameters) {
+    Streamer->emitIntValue(0, 1);
+  }
 }
 
 // DwarfTypesBuilder
